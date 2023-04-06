@@ -17,14 +17,14 @@ console.log(context);
        // context.fillStyle = "white";
        // context.fillRect(100,50,100,50);
 
-        context.fillStyle = "yellow";
+        /*context.fillStyle = "yellow";
         context.strokeStyle = "red";
         context.lineWidth = 4;
         context.beginPath();
         context.arc(200,200,80,0, Math.PI*2);
         context.fill();
         context.stroke();
-
+      */
     })
 
 
@@ -46,6 +46,13 @@ console.log(context);
        mouse.x = event.x;
        mouse.y = event.y;
       //drawCircle();
+   /*   
+      for(let i =0; i<15; i++)
+      {
+      particleArray.push(new Particle());
+      }
+  */
+
       console.log(event);
    })
 
@@ -54,13 +61,11 @@ console.log(context);
    {
       mouse.x = event.x;
       mouse.y = event.y
-      function init()
-    {
-    for(let i =0; i<100; i++)
-    {
+
+      for(let i =0; i<15; i++)
+      {
       particleArray.push(new Particle());
-    }
-  }
+      }
       //drawCircle();
    })
 
@@ -127,7 +132,7 @@ function init()
 }
 */
 
-init();
+//init();
 //console.log(particleArray);
 
 function handleParticles()
@@ -150,7 +155,9 @@ function handleParticles()
 // clear the old paint & iterate in a loop
 function animate()
 {
- context.clearRect(0, 0, canvas.width, canvas.height)
+  //context.clearRect(0, 0, canvas.width, canvas.height)
+   context.fillStyle = 'rgba(0,0,0,0.2)';
+   context.fillRect(0, 0, canvas.width, canvas.height );
  //drawCircle();
  handleParticles();
  requestAnimationFrame(animate);
