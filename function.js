@@ -2,8 +2,11 @@ const canvas = document.getElementById("canva");
 const context = canvas.getContext("2d");
 console.log(context);
 
+
  canvas.width = window.innerWidth;
  canvas.height = window.innerHeight;
+
+ const particleArray = [];
 
 // when the window is resized, the element will be stable
  window.addEventListener('resize', () =>
@@ -40,21 +43,28 @@ console.log(context);
    //whenever/wherever  we click on the screen circle will get displayed
    canvas.addEventListener('click', function(event)
    {
-      mouse.x = event.x;
-      mouse.y = event.y;
+       mouse.x = event.x;
+       mouse.y = event.y;
       //drawCircle();
       console.log(event);
    })
 
-
+// mousemove - when the mouse moves on screen circle will get displayed
    canvas.addEventListener('mousemove', function(event)
    {
       mouse.x = event.x;
       mouse.y = event.y
+      function init()
+    {
+    for(let i =0; i<100; i++)
+    {
+      particleArray.push(new Particle());
+    }
+  }
       //drawCircle();
    })
 
-
+/*
   //to draw circle
    function drawCircle()
    {
@@ -62,20 +72,90 @@ console.log(context);
    context.strokeStyle = "red";
    context.lineWidth = 4;
    context.beginPath();  // we need to call beginpath, it's like telling javascript you want to place your drawing brush on the canvas and start drawing 
-   context.arc(mouse.x, mouse.y, 80, 0, Math.PI*2);
+   context.arc(mouse.x, mouse.y, 50, 0, Math.PI*2);
    context.fill();
    context.stroke();
    }
+*/
 
 
-   // clear the old paint & iterate in a loop
-   function animate()
-   {
-    context.clearRect(0, 0, canvas.width, canvas.height)
-    drawCircle();
-    requestAnimationFrame(animate);
-   }
+// particle system with js classes
+class Particle
+{
+  constructor()
+  {
+      this.x = mouse.x;
+      this.y = mouse.y;
+     // this.x = Math.random() * canvas.width;
+      //this.y = Math.random() * canvas.height;
+      this.size = Math.random() *20+1;
+      this.speedX = Math.random()*3 - 1.5;
+      this.speedY  = Math.random()*3 - 1.5;
+  }
 
-   animate();
+  update()
+  {
+     this.x += this.speedX;
+     this.y += this.speedY;
 
-   
+     // to shrink the circle size
+     if(this.size>0.5)
+     {
+      this.size -= 0.1;
+     }
+  }
+
+  draw()
+  {   
+    context.fillStyle = "yellow";
+    context.strokeStyle = "red";
+    context.lineWidth = 4;
+    context.beginPath();  // we need to call beginpath, it's like telling javascript you want to place your drawing brush on the canvas and start drawing 
+    context.arc(this.x, this.y, this.size, 0, Math.PI*2);
+    context.fill();
+    context.stroke();
+  }
+}
+
+/*
+function init()
+{
+  for(let i =0; i<100; i++)
+  {
+      particleArray.push(new Particle());
+  }
+}
+*/
+
+init();
+//console.log(particleArray);
+
+function handleParticles()
+{
+  for(let i = 0; i<particleArray.length; i++)
+  {
+    particleArray[i].update();
+    particleArray[i].draw();
+  
+    if(particleArray[i].size<=0.3)
+    {
+      particleArray[i].splice(i,1);
+      i--;
+    }
+
+  }
+}
+
+
+// clear the old paint & iterate in a loop
+function animate()
+{
+ context.clearRect(0, 0, canvas.width, canvas.height)
+ //drawCircle();
+ handleParticles();
+ requestAnimationFrame(animate);
+}
+
+animate();
+
+
