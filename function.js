@@ -63,7 +63,7 @@ console.log(context);
       mouse.x = event.x;
       mouse.y = event.y
 
-      for(let i =0; i<15; i++)
+      for(let i =0; i<10; i++)
       {
       particleArray.push(new Particle());
       }
@@ -94,7 +94,7 @@ class Particle
       this.y = mouse.y;
      // this.x = Math.random() * canvas.width;
       //this.y = Math.random() * canvas.height;
-      this.size = Math.random() *20+1;
+      this.size = Math.random() *15+1;
       this.speedX = Math.random()*3 - 1.5;
       this.speedY  = Math.random()*3 - 1.5;
       this.color = 'hsl(' +hue + ', 100%, 50% )';
@@ -115,7 +115,7 @@ class Particle
   draw()
   {   
     context.fillStyle = this.color;
-    //context.strokeStyle = "red";
+     //context.strokeStyle = "red";
     //context.lineWidth = 4;
     context.beginPath();  // we need to call beginpath, it's like telling javascript you want to place your drawing brush on the canvas and start drawing 
     context.arc(this.x, this.y, this.size, 0, Math.PI*2);
@@ -143,10 +143,27 @@ function handleParticles()
   {
     particleArray[i].update();
     particleArray[i].draw();
-  
+
+    for(let j =i; j<particleArray.length; j++)
+    {
+      const dx = particleArray[i].x - particleArray[j].x;
+      const dy = particleArray[i].y - particleArray[j].y;
+      const distance  = Math.sqrt(dx*dx + dy*dy);
+      // building lines with distance between two lines
+      if(distance<100)
+      {
+        context.beginPath();
+        context.strokeStyle = particleArray[i].color;
+        context.lineWidth = particleArray[i].size/5;
+        context.moveTo(particleArray[i].x, particleArray[i].y);
+        context.lineTo(particleArray[j].x, particleArray[j].y);
+        context.stroke();
+      }  
+    }
     if(particleArray[i].size<=0.3)
     {
-      particleArray[i].splice(i,1);
+      particleArray.splice(i,1);
+      console.log(particleArray.length);
       i--;
     }
 
@@ -162,7 +179,7 @@ function animate()
    //context.fillRect(0, 0, canvas.width, canvas.height );
  //drawCircle();
  handleParticles();
- hue+=8;
+ hue+=4;
  requestAnimationFrame(animate);
 }
 
