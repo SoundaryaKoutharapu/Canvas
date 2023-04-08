@@ -106,7 +106,7 @@ class Particle
      this.y += this.speedY;
 
      // to shrink the circle size
-     if(this.size>0.5)
+     if(this.size>0.3)
      {
       this.size -= 0.1;
      }
@@ -175,7 +175,7 @@ function handleParticles()
 function animate()
 {
     context.clearRect(0, 0, canvas.width, canvas.height)
-    //context.fillStyle = 'rgba(0,0,0,0.2)';
+    //context.fillStyle = 'rgba(0,0,0,0.3)';
    //context.fillRect(0, 0, canvas.width, canvas.height );
  //drawCircle();
  handleParticles();
