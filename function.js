@@ -7,6 +7,7 @@ console.log(context);
  canvas.height = window.innerHeight;
 
  const particleArray = [];
+ let hue  = 0;
 
 // when the window is resized, the element will be stable
  window.addEventListener('resize', () =>
@@ -96,6 +97,7 @@ class Particle
       this.size = Math.random() *20+1;
       this.speedX = Math.random()*3 - 1.5;
       this.speedY  = Math.random()*3 - 1.5;
+      this.color = 'hsl(' +hue + ', 100%, 50% )';
   }
 
   update()
@@ -112,13 +114,13 @@ class Particle
 
   draw()
   {   
-    context.fillStyle = "yellow";
-    context.strokeStyle = "red";
-    context.lineWidth = 4;
+    context.fillStyle = this.color;
+    //context.strokeStyle = "red";
+    //context.lineWidth = 4;
     context.beginPath();  // we need to call beginpath, it's like telling javascript you want to place your drawing brush on the canvas and start drawing 
     context.arc(this.x, this.y, this.size, 0, Math.PI*2);
     context.fill();
-    context.stroke();
+    //context.stroke();
   }
 }
 
@@ -155,11 +157,12 @@ function handleParticles()
 // clear the old paint & iterate in a loop
 function animate()
 {
-  //context.clearRect(0, 0, canvas.width, canvas.height)
-   context.fillStyle = 'rgba(0,0,0,0.2)';
-   context.fillRect(0, 0, canvas.width, canvas.height );
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    //context.fillStyle = 'rgba(0,0,0,0.2)';
+   //context.fillRect(0, 0, canvas.width, canvas.height );
  //drawCircle();
  handleParticles();
+ hue+=8;
  requestAnimationFrame(animate);
 }
 
